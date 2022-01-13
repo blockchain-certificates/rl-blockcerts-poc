@@ -1,5 +1,26 @@
 {
+  "name": "rl-blockcerts-poc",
+  "version": "1.0.0",
+  "description": "PoC Status List 2021 with Blockcerts",
+  "main": "index.js",
   "dependencies": {
-    "vc-js": "^0.6.4"
-  }
+    "vc-revocation-list": "^3.0.0"
+  },
+  "devDependencies": {
+    "ts-node": "^10.4.0"
+  },
+  "scripts": {
+    "generate": "ts-node src/generateList.ts",
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blockchain-certificates/rl-blockcerts-poc.git"
+  },
+  "author": "Julien Fraichot",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/blockchain-certificates/rl-blockcerts-poc/issues"
+  },
+  "homepage": "https://github.com/blockchain-certificates/rl-blockcerts-poc#readme"
 }
