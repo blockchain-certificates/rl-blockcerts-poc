@@ -5,10 +5,9 @@ async function generateList () {
   return list;
 }
 
-async function generateEncodedList (): Promise<string> {
+export async function generateEncodedList (): Promise<string> {
   const list = await generateList();
   const encodedList = await list.encode();
-  console.log(encodedList);
   return encodedList;
 }
 

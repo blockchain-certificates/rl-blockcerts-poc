@@ -4,13 +4,17 @@
   "description": "PoC Status List 2021 with Blockcerts",
   "main": "index.js",
   "dependencies": {
+    "@digitalbazaar/ed25519-signature-2020": "^3.0.0",
+    "@digitalbazaar/ed25519-verification-key-2020": "^3.2.0",
+    "@digitalbazaar/security-document-loader": "^1.1.1",
+    "jsonld-signatures": "^9.3.1",
     "vc-revocation-list": "^3.0.0"
   },
   "devDependencies": {
     "ts-node": "^10.4.0"
   },
   "scripts": {
-    "generate": "ts-node src/generateList.ts",
+    "generate": "ts-node src/createVCRevocationList.ts",
     "test": "npm run test"
   },
   "repository": {
