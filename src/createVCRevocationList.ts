@@ -72,7 +72,7 @@ async function generateCredential (): Promise<IRevocationList2021VerifiableCrede
 async function createVCRevocationList () {
   const keyPair = await generateKeyPair(); // TODO: allow passing existing key
   const suite = new Ed25519Signature2020({ key: keyPair });
-  suite.date = '2010-01-01T19:23:24Z';
+  suite.date = new Date(Date.now()).toISOString();
   const credential = await generateCredential();
   const signedCredential = await jsigs.sign(credential, {
     suite,
