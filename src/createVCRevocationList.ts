@@ -1,4 +1,4 @@
-import { generateEncodedList } from './generateList';
+import { generateEncodedList } from './helpers/generateList';
 
 const fs = require('fs');
 const path = require('path');
