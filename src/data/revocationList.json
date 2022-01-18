@@ -6,7 +6,7 @@
   ],
   "id": "",
   "issuer": "",
-  "issuanceDate": "2022-01-18T15:30:17.320Z",
+  "issuanceDate": "2022-01-18T15:58:08.454Z",
   "type": [
     "VerifiableCredential",
     "RevocationList2021Credential"
@@ -14,20 +14,20 @@
   "credentialSubject": {
     "id": "#list",
     "type": "RevocationList2021",
-    "encodedList": {}
+    "encodedList": "H4sIAAAAAAAAA-3BIQEAAAACICf4f60zLEADAAAAAAAAAAAAAAAAAAAAvA16YgrEAEAAAA"
   },
   "proof": [
     {
       "type": "Ed25519Signature2020",
-      "created": "2022-01-18T15:30:17.326Z",
+      "created": "2022-01-18T15:58:08.460Z",
       "proofPurpose": "assertionMethod",
-      "proofValue": "z5BGnXeTDfAykFxSpM9RN2XRUoejK1pXEpsJjJDqPb2zsLSVz8q4idv1SrZ6aohzC5EQZPvTVki2BQrU9w5KhGCB"
+      "proofValue": "z2rKNMd8xyFoeozNNPQDfT6icLDLPfFqsqvQGDqXucv1xJdh6UBhGqPXE5dRur9tfCsD9gzbfEyh9YWsEhRFKmGYh"
     },
     {
       "type": "Ed25519Signature2020",
-      "created": "2022-01-18T15:53:06.746Z",
+      "created": "2022-01-18T15:58:16.621Z",
       "proofPurpose": "assertionMethod",
-      "proofValue": "z535aWtTzurmDMMjvFtJt3CvdjmrztKidvwycTEZoaEHGndaD2xgD1NZGRaTzWebJUnjQ4e3MWFhTyGRJa6QpMiAG"
+      "proofValue": "z2VNbFgPy7q32VnnzBEhtTjwhoUrg5X5TZgwmrZXnaSmsMhBJrB4XiGdCTwu4Qs32PuyS9dRQd7WPsG1QydvhTrx1"
     }
   ]
 }

@@ -41,6 +41,11 @@ async function revokeCredential () {
   const revocationList: typeof RevocationList = await retrieveRevocationList(revocationCredential);
   console.log('decoded revocation list', revocationList);
 
+  if (revocationList.isRevoked(credentialIndex)) {
+    console.log('credential is already revoked, aborting');
+    return;
+  }
+
   revocationList.setRevoked(credentialIndex, true);
   if (!revocationList.isRevoked(credentialIndex)) {
     console.error('Something went wrong while revoking.', revocationList, revocationList.isRevoked(credentialIndex));
