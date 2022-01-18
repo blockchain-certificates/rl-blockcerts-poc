@@ -15,7 +15,7 @@ async function retrieveRevocationList (revocationCredential: IRevocationList2021
 }
 
 async function updateCredentialFile (revocationCredential: IRevocationList2021VerifiableCredential, revocationList: typeof RevocationList) {
-  const encodedList = revocationList.encode();
+  const encodedList = await revocationList.encode();
   revocationCredential.credentialSubject.encodedList = encodedList;
   const keyPairData = loadFileData<IEd25519VerificationKey2020>(DEFAULT_KEY_PAIR_FILE_NAME);
   if (!keyPairData) {
