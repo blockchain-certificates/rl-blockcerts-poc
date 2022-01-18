@@ -1,0 +1,25 @@
+{
+  "@context": [
+    "https://www.w3.org/2018/credentials/v1",
+    "https://w3id.org/vc-revocation-list-2020/v1",
+    "https://w3id.org/security/suites/ed25519-2020/v1"
+  ],
+  "id": "",
+  "issuer": "",
+  "issuanceDate": "",
+  "type": [
+    "VerifiableCredential",
+    "RevocationList2021Credential"
+  ],
+  "credentialSubject": {
+    "id": "#list",
+    "type": "RevocationList2021",
+    "encodedList": "H4sIAAAAAAAAA-3BMQEAAADCoPVPbQwfoAAAAAAAAAAAAAAAAAAAAIC3AYbSVKsAQAAA"
+  },
+  "proof": {
+    "type": "Ed25519Signature2020",
+    "created": "2022-01-18T13:34:33.016Z",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "zGHSEZbuzRBwZ2XyaanvM7uctFngf8QNkfNcmyU9vdUYtbyiKNWBeah5Adic9ENCngBgtE49UagEpEhaa55Tr1DB"
+  }
+}
