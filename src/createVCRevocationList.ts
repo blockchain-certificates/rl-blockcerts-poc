@@ -1,36 +1,14 @@
 import { generateEncodedList } from './helpers/generateList';
 
-const fs = require('fs');
-const path = require('path');
 const jsigs = require('jsonld-signatures');
 const {purposes: {AssertionProofPurpose}} = jsigs;
 const { Ed25519VerificationKey2020 } = require('@digitalbazaar/ed25519-verification-key-2020');
 const { Ed25519Signature2020 } = require('@digitalbazaar/ed25519-signature-2020');
 import { securityLoader } from '@digitalbazaar/security-document-loader';
 import revocationList2020Context from './contexts/revocation-list-2020.json';
-import prettyFormat from "./helpers/prettyFormat";
-
-interface IRevocationList2021VerifiableCredential {
-  '@context': ['https://www.w3.org/2018/credentials/v1', 'https://w3id.org/vc-revocation-list-2020/v1'], // TODO: update with 2021
-  id: string;
-  issuer: string; // or Issuer Object
-  issuanceDate: string;
-  type: ['VerifiableCredential', 'RevocationList2021Credential'],
-  credentialSubject: {
-    id: string;
-    type: 'RevocationList2021',
-    encodedList: string;
-  }
-}
-
-interface IEd25519VerificationKey2020 {
-  id?: string,
-  controller?: string,
-  revoked?: string,
-  type: 'Ed25519VerificationKey2020',
-  publicKeyMultibase: string,
-  privateKeyMultibase: string
-}
+import { IEd25519VerificationKey2020, IRevocationList2021VerifiableCredential } from './models';
+import {DEFAULT_REVOCATION_LIST_FILE_NAME} from "./constants";
+import writeFile from "./helpers/writeFile";
 
 function getVCTemplate ({
   encodedList,
@@ -72,17 +50,6 @@ async function generateCredential (): Promise<IRevocationList2021VerifiableCrede
   return credential;
 }
 
-async function writeFile (fileContent: any, fileName: string = 'revocationList') {
-  const outputPath: string = path.join(process.cwd(), 'src', 'data', `${fileName}.json`);
-  await fs.writeFile(outputPath, prettyFormat(fileContent), (err) => {
-    if (err) {
-      console.error(err);
-      return;
-    }
-    console.log(`file saved to file ${outputPath}`);
-  });
-}
-
 async function createVCRevocationList () {
   const keyPair = await generateKeyPair(); // TODO: allow passing existing key
   await writeFile(keyPair, 'keyPair');
@@ -97,6 +64,6 @@ async function createVCRevocationList () {
     documentLoader: generateDocumentLoader()
   });
   console.log('credential', signedCredential);
-  await writeFile(signedCredential);
+  await writeFile(signedCredential, DEFAULT_REVOCATION_LIST_FILE_NAME);
 }
 createVCRevocationList();
