@@ -85,6 +85,7 @@ async function writeFile (fileContent: any, fileName: string = 'revocationList')
 
 async function createVCRevocationList () {
   const keyPair = await generateKeyPair(); // TODO: allow passing existing key
+  await writeFile(keyPair, 'keyPair');
   const currentTime = new Date(Date.now()).toISOString();
   const suite = new Ed25519Signature2020({ key: keyPair });
   suite.date = currentTime;
