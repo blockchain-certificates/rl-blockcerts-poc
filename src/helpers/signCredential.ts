@@ -18,9 +18,12 @@ async function generateSignerData (): Promise<{
 }> {
   const keyPair = await Ed25519VerificationKey2020.generate();
   const {didDocument} = await didKeyDriver.publicKeyToDidDoc({publicKeyDescription: keyPair});
-  console.log(didDocument);
+  keyPair.controller = didDocument.id;
+  keyPair.id = keyPair.controller + '#' + keyPair.publicKeyMultibase;
   await writeFile(keyPair, DEFAULT_KEY_PAIR_FILE_NAME);
+  console.log('key pair generated:', keyPair);
   await writeFile(didDocument, 'did.json');
+  console.log('did document generated:', didDocument);
   return { keyPair, didDocument };
 }
 

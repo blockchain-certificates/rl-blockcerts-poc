@@ -1,5 +1,7 @@
 {
+  "id": "did:key:z6MkuN3gLUTDJvJb1GdjADuPUFTNtGCU1fU2bUr5CXNWCHst#z6MkuN3gLUTDJvJb1GdjADuPUFTNtGCU1fU2bUr5CXNWCHst",
+  "controller": "did:key:z6MkuN3gLUTDJvJb1GdjADuPUFTNtGCU1fU2bUr5CXNWCHst",
   "type": "Ed25519VerificationKey2020",
-  "publicKeyMultibase": "z6MkhF2jTYy1UzLttzmacCje25LtWshuRok1keb6Rub7stkk",
-  "privateKeyMultibase": "zrv4pLYeZLd99zL1oec67cZ3R6yqKK4T7vQ9ciXLiNBjXmeeiMzMd47qq77LfSp3yEiXtpfudWbQ6CiLfuULrLYNJUk"
+  "publicKeyMultibase": "z6MkuN3gLUTDJvJb1GdjADuPUFTNtGCU1fU2bUr5CXNWCHst",
+  "privateKeyMultibase": "zrv53quWJ4vKgioZF6X5Sn4GXWUmKH5F5oqo5gveyg1kzqEb3MCxDNnBS7P6R3apq2nJgEySXMMR8vng42tqNAWPfqQ"
 }
