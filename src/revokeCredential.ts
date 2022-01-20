@@ -1,18 +1,13 @@
 import writeFile from "./helpers/writeFile";
 
-const { decodeList, RevocationList } = require('vc-revocation-list');
+const { RevocationList } = require('vc-revocation-list');
 const { Ed25519VerificationKey2020 } = require('@digitalbazaar/ed25519-verification-key-2020');
 import getArg from "./helpers/getArg";
 import loadFileData from "./helpers/loadFileData";
 import {DEFAULT_KEY_PAIR_FILE_NAME, DEFAULT_REVOCATION_LIST_FILE_NAME} from "./constants";
 import {IEd25519VerificationKey2020, IRevocationList2021VerifiableCredential} from "./models";
 import signCredential from "./helpers/signCredential";
-
-async function retrieveRevocationList (revocationCredential: IRevocationList2021VerifiableCredential): Promise<typeof RevocationList> {
-  const encodedList = revocationCredential.credentialSubject.encodedList;
-  console.log('encoded list', encodedList, typeof encodedList);
-  return decodeList({ encodedList });
-}
+import retrieveDecodedRevocationList from "./helpers/retrieveDecodedRevocationList";
 
 async function updateCredentialFile (revocationCredential: IRevocationList2021VerifiableCredential, revocationList: typeof RevocationList) {
   const encodedList = await revocationList.encode();
@@ -35,10 +30,10 @@ async function revokeCredential () {
   }
   console.log('Revoking credential at index', credentialIndex);
 
-  const revocationCredential = loadFileData<IRevocationList2021VerifiableCredential>(DEFAULT_REVOCATION_LIST_FILE_NAME)
+  const revocationCredential = loadFileData<IRevocationList2021VerifiableCredential>(DEFAULT_REVOCATION_LIST_FILE_NAME);
   console.log('loaded revocation credential', revocationCredential);
 
-  const revocationList: typeof RevocationList = await retrieveRevocationList(revocationCredential);
+  const revocationList: typeof RevocationList = await retrieveDecodedRevocationList(revocationCredential);
   console.log('decoded revocation list', revocationList);
 
   if (revocationList.isRevoked(credentialIndex)) {

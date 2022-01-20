@@ -4,6 +4,7 @@
   "description": "PoC Status List 2021 with Blockcerts",
   "main": "index.js",
   "dependencies": {
+    "@blockcerts/cert-verifier-js": "^5.8.0",
     "@digitalbazaar/ed25519-signature-2020": "^3.0.0",
     "@digitalbazaar/ed25519-verification-key-2020": "^3.2.0",
     "@digitalbazaar/security-document-loader": "^1.1.1",
@@ -16,6 +17,7 @@
   "scripts": {
     "generate": "ts-node src/createVCRevocationList.ts",
     "revoke": "ts-node src/revokeCredential.ts",
+    "verify": "ts-node src/verifyCredential.ts",
     "test": "npm run test"
   },
   "repository": {
