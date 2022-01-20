@@ -5,11 +5,16 @@ import {IRevocationList2021VerifiableCredential} from "./models";
 import {DEFAULT_REVOCATION_LIST_FILE_NAME} from "./constants";
 import retrieveDecodedRevocationList from "./helpers/retrieveDecodedRevocationList";
 
+function verifyProofRevocationCredential (revocationCredential: IRevocationList2021VerifiableCredential) {
+
+}
+
 function getRevocationCredential (credentialStatus): IRevocationList2021VerifiableCredential {
   // const revocationListCredentialUrl = credentialStatus.statusListCredential;
   // const revocationCredential = fetch
 
-  return loadFileData<IRevocationList2021VerifiableCredential>(DEFAULT_REVOCATION_LIST_FILE_NAME);
+  const revocationCredential = loadFileData<IRevocationList2021VerifiableCredential>(DEFAULT_REVOCATION_LIST_FILE_NAME);
+  return revocationCredential;
 }
 
 async function getStatusList (revocationCredential: IRevocationList2021VerifiableCredential): Promise<typeof RevocationList> {

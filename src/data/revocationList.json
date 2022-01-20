@@ -5,8 +5,8 @@
     "https://w3id.org/security/suites/ed25519-2020/v1"
   ],
   "id": "",
-  "issuer": "",
-  "issuanceDate": "2022-01-19T15:39:26.205Z",
+  "issuer": "did:key:z6MkhF2jTYy1UzLttzmacCje25LtWshuRok1keb6Rub7stkk",
+  "issuanceDate": "2022-01-20T15:42:15.279Z",
   "type": [
     "VerifiableCredential",
     "RevocationList2021Credential"
@@ -14,26 +14,12 @@
   "credentialSubject": {
     "id": "#list",
     "type": "RevocationList2021",
-    "encodedList": "H4sIAAAAAAAAA-3OMREAAAgEIM8E9k_7uwUchARMAQAAAAAAAAAAAAAAAADAO30dANgC-ZNohABAAAA"
+    "encodedList": "H4sIAAAAAAAAA-3BMQEAAADCoPVPbQwfoAAAAAAAAAAAAAAAAAAAAIC3AYbSVKsAQAAA"
   },
-  "proof": [
-    {
-      "type": "Ed25519Signature2020",
-      "created": "2022-01-19T15:39:26.213Z",
-      "proofPurpose": "assertionMethod",
-      "proofValue": "zmwVsQiMCEXr16XvbTEe1vispjk4bivbdbLgH2UcV7dhFukFPXj2U7DDz1wSZ68Vkx5dbkgEv7aSJs8CAVDjjUPE"
-    },
-    {
-      "type": "Ed25519Signature2020",
-      "created": "2022-01-19T15:43:24.283Z",
-      "proofPurpose": "assertionMethod",
-      "proofValue": "z2xPEBKo2dQL9g4ai7zAj1Kr7h4vc8HykQJdeKp8JByb8efuVm8wRDkg9BBaKHhvwyPUAFwbdtaorzWKGjixdLgau"
-    },
-    {
-      "type": "Ed25519Signature2020",
-      "created": "2022-01-19T15:44:43.988Z",
-      "proofPurpose": "assertionMethod",
-      "proofValue": "zJP6saUSQfkZbCGygvx18gsZM56LNeSDbsRVG6M18svSDx4auMjkL6sBEigkwXxbijXC8xbMSB7VWNiBuzET5bRs"
-    }
-  ]
+  "proof": {
+    "type": "Ed25519Signature2020",
+    "created": "2022-01-20T15:42:15.297Z",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "zsK4URtaMsJfoEn4XsMU8JkSKKfnWbkUirb9HhXXA8FEkYkbezyyJFSBPNdPUqsYDhKHw73U6RCEjA9gVWzKB8a2"
+  }
 }
