@@ -27,7 +27,7 @@ async function generateSignerData (): Promise<{
   return { keyPair, didDocument };
 }
 
-function generateDocumentLoader () {
+export function generateDocumentLoader () {
   const documentLoader = securityLoader();
   documentLoader.addStatic('https://w3id.org/vc-revocation-list-2020/v1', revocationList2020Context);
   return documentLoader.build();
