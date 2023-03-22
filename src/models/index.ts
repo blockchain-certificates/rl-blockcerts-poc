@@ -1,14 +1,14 @@
 import { MerkleProof2019 as VCProof } from "@blockcerts/cert-verifier-js";
 
 export interface IRevocationList2021VerifiableCredential {
-  '@context': ['https://www.w3.org/2018/credentials/v1', 'https://w3id.org/vc-revocation-list-2020/v1'], // TODO: update with 2021
+  '@context': ['https://www.w3.org/2018/credentials/v1', 'https://w3id.org/vc/status-list/2021/v1'], // TODO: update with 2021
   id: string;
   issuer: string; // or Issuer Object
   issuanceDate: string;
-  type: ['VerifiableCredential', 'RevocationList2021Credential'],
+  type: ['VerifiableCredential', 'StatusList2021Credential'],
   credentialSubject: {
     id: string;
-    type: 'RevocationList2021',
+    type: 'StatusList2021',
     encodedList: string;
   }
   proof?: VCProof

@@ -14,14 +14,14 @@ function getVCTemplate ({
   id?: string
 }): IRevocationList2021VerifiableCredential {
   return {
-    '@context': ['https://www.w3.org/2018/credentials/v1', 'https://w3id.org/vc-revocation-list-2020/v1'],
+    '@context': ['https://www.w3.org/2018/credentials/v1', 'https://w3id.org/vc/status-list/2021/v1'],
     id,
     issuer: '',
     issuanceDate: '',
-    type: ['VerifiableCredential', 'RevocationList2021Credential'],
+    type: ['VerifiableCredential', 'StatusList2021Credential'],
     credentialSubject: {
       id: `${id}#list`,
-      type: 'RevocationList2021',
+      type: 'StatusList2021',
       encodedList,
     }
   };
