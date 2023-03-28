@@ -1,13 +1,13 @@
-import writeFile from "./helpers/writeFile";
+import writeFile from "./helpers/writeFile.js";
 
 const { RevocationList } = require('vc-revocation-list');
 const { Ed25519VerificationKey2020 } = require('@digitalbazaar/ed25519-verification-key-2020');
 import getArg from "./helpers/getArg";
-import loadFileData from "./helpers/loadFileData";
-import {DEFAULT_KEY_PAIR_FILE_NAME, DEFAULT_REVOCATION_LIST_FILE_NAME} from "./constants";
+import loadFileData from "./helpers/loadFileData.js";
+import {DEFAULT_KEY_PAIR_FILE_NAME, DEFAULT_REVOCATION_LIST_FILE_NAME} from "./constants/index.js";
 import {IEd25519VerificationKey2020, IRevocationList2021VerifiableCredential} from "./models";
-import signCredential from "./helpers/signCredential";
-import retrieveDecodedRevocationList from "./helpers/retrieveDecodedRevocationList";
+import signCredential from "./helpers/signCredential.js";
+import retrieveDecodedRevocationList from "./helpers/retrieveDecodedRevocationList.js";
 
 async function updateCredentialFile (revocationCredential: IRevocationList2021VerifiableCredential, revocationList: typeof RevocationList) {
   const encodedList = await revocationList.encode();

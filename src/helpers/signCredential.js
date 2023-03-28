@@ -1,21 +1,17 @@
-import {DEFAULT_KEY_PAIR_FILE_NAME} from "../constants";
+import {DEFAULT_KEY_PAIR_FILE_NAME} from "../constants/index.js";
 
-const jsigs = require('jsonld-signatures');
-const didKeyDriver = require('@digitalbazaar/did-method-key').driver();
+import jsigs from 'jsonld-signatures';
+import didMethodKey from '@digitalbazaar/did-method-key';
+const { driver: didKeyDriver } = didMethodKey;
 const {purposes: {AssertionProofPurpose}} = jsigs;
-const { Ed25519VerificationKey2020 } = require('@digitalbazaar/ed25519-verification-key-2020');
-const { Ed25519Signature2020 } = require('@digitalbazaar/ed25519-signature-2020');
+import { Ed25519VerificationKey2020 } from '@digitalbazaar/ed25519-verification-key-2020';
+import { Ed25519Signature2020 } from '@digitalbazaar/ed25519-signature-2020';
 import { securityLoader } from '@digitalbazaar/security-document-loader';
-import {IDidDocument} from "@blockcerts/cert-verifier-js";
-import currentTime from "./currentTime";
-import {IEd25519VerificationKey2020} from "../models";
-import writeFile from "./writeFile";
-import revocationList2020Context from '../contexts/revocation-list-2020.json';
+import currentTime from "./currentTime.js";
+import writeFile from "./writeFile.js";
+import statusList2021Context from '../contexts/status-list-2021.json' assert { type: "json" };
 
-async function generateSignerData (): Promise<{
-  keyPair: IEd25519VerificationKey2020;
-  didDocument: IDidDocument
-}> {
+async function generateSignerData () {
   const keyPair = await Ed25519VerificationKey2020.generate();
   const {didDocument} = await didKeyDriver.publicKeyToDidDoc({publicKeyDescription: keyPair});
   keyPair.controller = didDocument.id;
@@ -29,11 +25,11 @@ async function generateSignerData (): Promise<{
 
 export function generateDocumentLoader () {
   const documentLoader = securityLoader();
-  documentLoader.addStatic('https://w3id.org/vc-revocation-list-2020/v1', revocationList2020Context);
+  documentLoader.addStatic('https://w3id.org/vc/status-list/2021/v1', statusList2021Context);
   return documentLoader.build();
 }
 
-export default async function signCredential (credential, keyPair: IEd25519VerificationKey2020 = null, didDocument: IDidDocument = null) {
+export default async function signCredential (credential, keyPair = null, didDocument = null) {
   if (!keyPair) {
     console.log('no keyPair provided, generating a new one');
     const signerData = await generateSignerData();

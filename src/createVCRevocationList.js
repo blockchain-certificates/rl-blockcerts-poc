@@ -1,18 +1,14 @@
-import { generateEncodedList } from './helpers/generateList';
-
-import { IRevocationList2021VerifiableCredential } from './models';
-import {DEFAULT_REVOCATION_LIST_FILE_NAME} from "./constants";
-import writeFile from "./helpers/writeFile";
-import signCredential from "./helpers/signCredential";
-import currentTime from "./helpers/currentTime";
-
+import { generateEncodedList } from './helpers/generateList.js';
+import {DEFAULT_REVOCATION_LIST_FILE_NAME} from "./constants/index.js";
+import writeFile from "./helpers/writeFile.js";
+import signCredential from "./helpers/signCredential.js";
+import currentTime from "./helpers/currentTime.js";
+import SegfaultHandler from 'segfault-handler';
+SegfaultHandler.registerHandler('crash.log');
 function getVCTemplate ({
   encodedList,
   id = ''
-                        }: {
-  encodedList: string,
-  id?: string
-}): IRevocationList2021VerifiableCredential {
+}) {
   return {
     '@context': ['https://www.w3.org/2018/credentials/v1', 'https://w3id.org/vc/status-list/2021/v1'],
     id,
@@ -27,7 +23,7 @@ function getVCTemplate ({
   };
 }
 
-async function generateCredential (): Promise<IRevocationList2021VerifiableCredential> {
+async function generateCredential () {
   const encodedBitStringList = await generateEncodedList();
   const credential = getVCTemplate({
     encodedList: encodedBitStringList
