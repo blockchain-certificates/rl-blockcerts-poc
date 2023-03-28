@@ -1,6 +1,6 @@
 With node 18
 
-run `npm run generate`. This will create a revocation list.
+run `npm run generate`. This will create a revocation list located at `./src/data/revocationList.json`.
 
 The encoded list default value is: `H4sIAAAAAAAAA-3OMQEAAAgDoJ32T2yL6QEJSAAAgJK5DgAAAAAAAAAAAAAAAAB_LUkhKJ4AQAAA`
 
