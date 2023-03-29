@@ -13,13 +13,13 @@
   "credentialSubject": {
     "id": "https://www.blockcerts.org/samples/3.0/status-list-2021.json#list",
     "type": "StatusList2021",
-    "encodedList": "H4sIAAAAAAAAA-3BMQEAAADCoPVPbQwfoAAAAAAAAAAAAAAAAAAAAIC3AYbSVKsAQAAA"
+    "encodedList": "H4sIAAAAAAAAA-3OMQEAAAgDoJ32T2yL6QEJSAAAgJK5DgAAAAAAAAAAAAAAAAB_LUkhKJ4AQAAA"
   },
   "proof": {
     "type": "EcdsaSecp256k1Signature2019",
-    "created": "2023-03-29T11:59:45.606Z",
+    "created": "2023-03-29T12:34:27.699Z",
     "verificationMethod": "did:key:zQ3shWbMURApEGeYEYbyfMoPbuW5qCmM7gtWkwnhGf2LLkv2M#zQ3shWbMURApEGeYEYbyfMoPbuW5qCmM7gtWkwnhGf2LLkv2M",
     "proofPurpose": "assertionMethod",
-    "jws": "eyJhbGciOiJFUzI1NksiLCJiNjQiOmZhbHNlLCJjcml0IjpbImI2NCJdfQ..kh1buLG91t7KTNH_u5Svux4AiaoPbVguzbYVir0JxZIghyDso030AiIVW6T991v0eupGxABX4EKnowx-6-lHRg"
+    "jws": "eyJhbGciOiJFUzI1NksiLCJiNjQiOmZhbHNlLCJjcml0IjpbImI2NCJdfQ..7MIDko1Pms0vp4P-nJg5hRCXzZdvsQFBsz3p-JEDHrcWHtuPpVrYivSXe3yRnSHW7ddhXRJJ_vIdD48erOB5_w"
   }
 }
