@@ -4,6 +4,6 @@ run `npm run generate`. This will create a revocation list located at `./src/dat
 
 The encoded list default value is: `H4sIAAAAAAAAA-3OMQEAAAgDoJ32T2yL6QEJSAAAgJK5DgAAAAAAAAAAAAAAAAB_LUkhKJ4AQAAA`
 
-modify the list value with `H4sIAAAAAAAAA-3OMQEAAAgDoJ32T2yL6QEJSAAAgJK5DgAAAAAAAAAAAAAAAAB_LUkhKJ4AQAAA`. 
+modify the list value with `H4sIAAAAAAAAA-3BMQEAAADCoPVPbQwfoAAAAAAAAAAAAAAAAAAAAIC3AYbSVKsAQAAA`. 
 
 run `npm run verify`. The Ed25519 signature does not fail.
