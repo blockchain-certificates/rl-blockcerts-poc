@@ -6,10 +6,15 @@ import writeFile from "./helpers/writeFile";
 // import signCredential from "./helpers/signCredential";
 import currentTime from "./helpers/currentTime";
 import signSecp256k1 from "./helpers/signSecp256k1";
+import {v4 as uuidv4} from 'uuid';
 
+
+function generateUuid () {
+  return uuidv4();
+}
 function getVCTemplate ({
   encodedList,
-  id = ''
+  id = generateUuid()
                         }: {
   encodedList: string,
   id?: string
@@ -31,7 +36,8 @@ function getVCTemplate ({
 async function generateCredential (): Promise<IRevocationList2021VerifiableCredential> {
   const encodedBitStringList = await generateEncodedList();
   const credential = getVCTemplate({
-    encodedList: encodedBitStringList
+    encodedList: encodedBitStringList,
+    id: 'https://www.blockcerts.org/samples/3.0/status-list-2021.json'
   });
   return credential;
 }
