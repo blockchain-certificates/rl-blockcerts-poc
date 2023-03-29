@@ -2,18 +2,36 @@ import {BlockcertsV3, IDidDocument} from "@blockcerts/cert-verifier-js";
 const { RevocationList } = require('vc-revocation-list');
 const jsigs = require('jsonld-signatures');
 const {purposes: {AssertionProofPurpose}} = jsigs;
-const didKeyDriver = require('@digitalbazaar/did-method-key').driver();
-const { Ed25519VerificationKey2020 } = require('@digitalbazaar/ed25519-verification-key-2020');
-const { Ed25519Signature2020 } = require('@digitalbazaar/ed25519-signature-2020');
+const didKeySecp256k1 = require('@transmute/did-key-secp256k1');
+const { EcdsaSecp256k1VerificationKey2019 } = require('@bloomprotocol/ecdsa-secp256k1-verification-key-2019');
+const { EcdsaSecp256k1Signature2019 } = require('@bloomprotocol/ecdsa-secp256k1-signature-2019');
 import loadFileData from "./helpers/loadFileData";
 import {IRevocationList2021VerifiableCredential} from "./models";
 import {DEFAULT_REVOCATION_LIST_FILE_NAME} from "./constants";
 import retrieveDecodedRevocationList from "./helpers/retrieveDecodedRevocationList";
-import {generateDocumentLoader} from "./helpers/signCredential";
+import generateDocumentLoader from "./helpers/generateDocumentLoader";
 import currentTime from "./helpers/currentTime";
 
 async function verifyProofRevocationCredential (revocationCredential: IRevocationList2021VerifiableCredential) {
-  const didDocument: IDidDocument = await didKeyDriver.get({ did: revocationCredential.issuer });
+  let didDocument: IDidDocument;
+
+  // if (revocationCredential.proof.type === 'Ed25519Signature2020') {
+  //   didDocument = await didKeyDriver.get({ did: revocationCredential.issuer });
+  // }
+
+  if (revocationCredential.proof.type === 'EcdsaSecp256k1Signature2019') {
+    console.log('signature is EcdsaSecp256k1Signature2019');
+    console.log('issuer is', revocationCredential.issuer);
+    try {
+      const output = await didKeySecp256k1.resolve(revocationCredential.issuer);
+      didDocument = output.didDocument as IDidDocument;
+      console.log(didDocument);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+
   if (!didDocument) {
     throw new Error('Only did key issuers are supported at this moment');
   }
@@ -25,26 +43,51 @@ async function verifyProofRevocationCredential (revocationCredential: IRevocatio
     throw new Error('The revocation method of the document does not match the provided issuer.');
   }
 
-  const verificationKey = await Ed25519VerificationKey2020.from({
-    ...verificationMethod
-  });
+  let suite;
 
-  if (verificationKey.revoked) {
-    throw new Error('The verification key has been revoked');
+  // if (revocationCredential.proof.type === 'Ed25519Signature2020') {
+  //   const verificationKey = await Ed25519VerificationKey2020.from({
+  //     ...verificationMethod
+  //   });
+  //
+  //   if (verificationKey.revoked) {
+  //     throw new Error('The verification key has been revoked');
+  //   }
+  //
+  //   suite = new Ed25519Signature2020({ key: verificationKey });
+  // }
+
+  if (revocationCredential.proof.type === 'EcdsaSecp256k1Signature2019') {
+    const verificationKey = await EcdsaSecp256k1VerificationKey2019.from({
+      ...verificationMethod
+    } as any);
+
+    console.log('verification key', JSON.stringify(verificationKey, null, 2));
+
+    if (verificationKey.revoked) {
+      throw new Error('The verification key has been revoked');
+    }
+
+    suite = new EcdsaSecp256k1Signature2019({ key: verificationKey });
   }
 
-  const suite = new Ed25519Signature2020({ key: verificationKey });
+
   suite.date = currentTime();
 
   const verificationStatus = await jsigs.verify(revocationCredential, {
     suite,
     purpose: new AssertionProofPurpose(),
-    documentLoader: generateDocumentLoader()
+    documentLoader: generateDocumentLoader([{
+      [verificationMethod.controller]: loadFileData('did-secp256k1.json')
+    }])
   });
 
   if (!verificationStatus.verified) {
+    console.log(verificationStatus);
     throw new Error('Error validating the revocation list credential proof');
   }
+
+  console.log('Revocation list credential successfully verified');
 }
 
 async function getRevocationCredential (credentialStatus): Promise<IRevocationList2021VerifiableCredential> {

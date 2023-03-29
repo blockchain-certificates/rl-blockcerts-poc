@@ -1,0 +1,7 @@
+{
+  "id": "did:key:zQ3shQVT6JM8N25LvKeosW8nMRcdyz5Wmv5AowerUgw39bvSy#zQ3shQVT6JM8N25LvKeosW8nMRcdyz5Wmv5AowerUgw39bvSy",
+  "controller": "did:key:zQ3shQVT6JM8N25LvKeosW8nMRcdyz5Wmv5AowerUgw39bvSy",
+  "type": "EcdsaSecp256k1VerificationKey2019",
+  "publicKeyBase58": "eYJ5TCethS835Z8T83uJc2GYLKKodX8H1j6gPbN2PSbF",
+  "privateKeyBase58": "4GyxPY2i4iLiqQ5Kacaa5cTeDBZ4Fs3YEMrK42R5rcSd"
+}

@@ -3,8 +3,9 @@ import { generateEncodedList } from './helpers/generateList';
 import { IRevocationList2021VerifiableCredential } from './models';
 import {DEFAULT_REVOCATION_LIST_FILE_NAME} from "./constants";
 import writeFile from "./helpers/writeFile";
-import signCredential from "./helpers/signCredential";
+// import signCredential from "./helpers/signCredential";
 import currentTime from "./helpers/currentTime";
+import signSecp256k1 from "./helpers/signSecp256k1";
 
 function getVCTemplate ({
   encodedList,
@@ -38,7 +39,7 @@ async function generateCredential (): Promise<IRevocationList2021VerifiableCrede
 async function createVCRevocationList () {
   const credential = await generateCredential();
   credential.issuanceDate = currentTime();
-  const signedCredential = await signCredential(credential);
+  const signedCredential = await signSecp256k1(credential);
   await writeFile(signedCredential, DEFAULT_REVOCATION_LIST_FILE_NAME);
 }
 createVCRevocationList();
