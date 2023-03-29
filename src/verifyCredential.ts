@@ -15,6 +15,8 @@ import currentTime from "./helpers/currentTime";
 async function verifyProofRevocationCredential (revocationCredential: IRevocationList2021VerifiableCredential) {
   let didDocument: IDidDocument;
 
+  console.log('verify revocation list credential', revocationCredential);
+
   // if (revocationCredential.proof.type === 'Ed25519Signature2020') {
   //   didDocument = await didKeyDriver.get({ did: revocationCredential.issuer });
   // }

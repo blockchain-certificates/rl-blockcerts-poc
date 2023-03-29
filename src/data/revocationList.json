@@ -13,7 +13,7 @@
   "credentialSubject": {
     "id": "#list",
     "type": "StatusList2021",
-    "encodedList": "H4sIAAAAAAAAA-3BMQEAAADCoPVPbQwfoAAAAAAAAAAAAAAAAAAAAIC3AYbSVKsAQAAA"
+    "encodedList": "H4sIAAAAAAAAA-3OMQEAAAgDoJ32T2yL6QEJSAAAgJK5DgAAAAAAAAAAAAAAAAB_LUkhKJ4AQAAA"
   },
   "proof": {
     "type": "EcdsaSecp256k1Signature2019",
