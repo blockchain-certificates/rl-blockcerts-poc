@@ -24,6 +24,7 @@
   "scripts": {
     "generate": "ts-node src/createVCRevocationList.ts",
     "revoke": "ts-node src/revokeCredential.ts",
+    "suspend": "ts-node src/suspendCredential.ts",
     "verify": "ts-node src/verifyCredential.ts",
     "test": "npm run test"
   },

@@ -22,10 +22,10 @@ async function updateCredentialFile (revocationCredential: IRevocationList2021Ve
   delete updatedRevocationCredential.proof;
   const keyPair = await EcdsaSecp256k1VerificationKey2019.from(keyPairData as any);
   const signedCredential = await signSecp256k1(updatedRevocationCredential, keyPair);
-  await writeFile(signedCredential, DEFAULT_REVOCATION_LIST_FILE_NAME);
+  await writeFile(signedCredential, 'revocationList-suspension.json');
 }
 
-async function revokeCredential () {
+async function suspendCredential () {
   let credentialIndex: number;
   try {
     credentialIndex = parseInt(getArg('credentialIndex'), 10);
@@ -34,7 +34,7 @@ async function revokeCredential () {
   }
   console.log('Revoking credential at index', credentialIndex);
 
-  const revocationCredential = loadFileData<IRevocationList2021VerifiableCredential>(DEFAULT_REVOCATION_LIST_FILE_NAME);
+  const revocationCredential = loadFileData<IRevocationList2021VerifiableCredential>('revocationList-suspension.json');
   console.log('loaded revocation credential', revocationCredential);
 
   const revocationList: typeof RevocationList = await retrieveDecodedRevocationList(revocationCredential);
@@ -57,4 +57,4 @@ async function revokeCredential () {
   console.log('credential successfully updated after revocation of index', credentialIndex);
 }
 
-revokeCredential();
+suspendCredential();

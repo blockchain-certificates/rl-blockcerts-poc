@@ -1,12 +1,14 @@
 import { generateEncodedList } from './helpers/generateList';
 
 import { IRevocationList2021VerifiableCredential } from './models';
-import {DEFAULT_REVOCATION_LIST_FILE_NAME} from "./constants";
+import {DEFAULT_KEY_PAIR_FILE_NAME, DEFAULT_REVOCATION_LIST_FILE_NAME} from "./constants";
 import writeFile from "./helpers/writeFile";
 // import signCredential from "./helpers/signCredential";
 import currentTime from "./helpers/currentTime";
 import signSecp256k1 from "./helpers/signSecp256k1";
 import {v4 as uuidv4} from 'uuid';
+import loadFileData from "./helpers/loadFileData";
+import {EcdsaSecp256k1VerificationKey2019} from "@bloomprotocol/ecdsa-secp256k1-verification-key-2019";
 
 
 function generateUuid () {
@@ -37,7 +39,7 @@ async function generateCredential (): Promise<IRevocationList2021VerifiableCrede
   const encodedBitStringList = await generateEncodedList();
   const credential = getVCTemplate({
     encodedList: encodedBitStringList,
-    id: 'https://www.blockcerts.org/samples/3.0/status-list-2021.json'
+    id: 'https://www.blockcerts.org/samples/3.0/status-list-2021-suspension.json'
   });
   return credential;
 }
@@ -45,7 +47,10 @@ async function generateCredential (): Promise<IRevocationList2021VerifiableCrede
 async function createVCRevocationList () {
   const credential = await generateCredential();
   credential.issuanceDate = currentTime();
-  const signedCredential = await signSecp256k1(credential);
-  await writeFile(signedCredential, DEFAULT_REVOCATION_LIST_FILE_NAME);
+  const keyPairData = loadFileData<any>(DEFAULT_KEY_PAIR_FILE_NAME);
+  const keyPair = await EcdsaSecp256k1VerificationKey2019.from(keyPairData as any);
+  credential.issuer = (keyPair as any).controller;
+  const signedCredential = await signSecp256k1(credential, keyPair);
+  await writeFile(signedCredential, 'revocationList-suspension.json');
 }
 createVCRevocationList();
