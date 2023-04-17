@@ -1,5 +1,5 @@
 import {BlockcertsV3, IDidDocument} from "@blockcerts/cert-verifier-js";
-const { RevocationList } = require('vc-revocation-list');
+const { RevocationList } = require('@digitalbazaar/vc-revocation-list');
 const jsigs = require('jsonld-signatures');
 const {purposes: {AssertionProofPurpose}} = jsigs;
 const didKeySecp256k1 = require('@transmute/did-key-secp256k1');

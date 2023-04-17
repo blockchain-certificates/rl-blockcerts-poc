@@ -39,7 +39,7 @@ async function generateCredential (): Promise<IRevocationList2021VerifiableCrede
   const encodedBitStringList = await generateEncodedList();
   const credential = getVCTemplate({
     encodedList: encodedBitStringList,
-    id: 'https://www.blockcerts.org/samples/3.0/status-list-2021-suspension.json'
+    id: 'https://www.blockcerts.org/samples/3.0/status-list-2021.json'
   });
   return credential;
 }
@@ -51,6 +51,6 @@ async function createVCRevocationList () {
   const keyPair = await EcdsaSecp256k1VerificationKey2019.from(keyPairData as any);
   credential.issuer = (keyPair as any).controller;
   const signedCredential = await signSecp256k1(credential, keyPair);
-  await writeFile(signedCredential, 'revocationList-suspension.json');
+  await writeFile(signedCredential, 'revocationList.json');
 }
 createVCRevocationList();

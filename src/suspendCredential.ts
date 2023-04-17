@@ -1,6 +1,6 @@
 import writeFile from "./helpers/writeFile";
 
-const { RevocationList } = require('vc-revocation-list');
+const { RevocationList } = require('@digitalbazaar/vc-revocation-list');
 const { Ed25519VerificationKey2020 } = require('@digitalbazaar/ed25519-verification-key-2020');
 const { EcdsaSecp256k1VerificationKey2019 } = require('@bloomprotocol/ecdsa-secp256k1-verification-key-2019');
 import getArg from "./helpers/getArg";
