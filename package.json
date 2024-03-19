@@ -17,15 +17,14 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "ts-node": "^10.4.0",
     "tslib": "^2.5.0",
     "tsx": "^4.7.1",
     "typescript": "^5.4.2"
   },
   "scripts": {
-    "generate": "ts-node src/createVCRevocationList.ts",
-    "revoke": "ts-node src/revokeCredential.ts",
-    "suspend": "ts-node src/suspendCredential.ts",
+    "generate": "tsx src/createVCRevocationList.ts",
+    "revoke": "tsx src/revokeCredential.ts",
+    "suspend": "tsx src/suspendCredential.ts",
     "verify": "tsx src/verifyCredential.ts",
     "test": "npm run test"
   },
