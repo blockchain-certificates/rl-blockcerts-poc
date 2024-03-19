@@ -32,29 +32,29 @@ async function suspendCredential () {
   } catch (e) {
     throw new Error('Please specify credential index to revoke with credentialIndex argument as number');
   }
-  console.log('Revoking credential at index', credentialIndex);
+  console.log('Suspending credential at index', credentialIndex);
 
   const revocationCredential = loadFileData<IRevocationList2021VerifiableCredential>('revocationList-suspension.json');
-  console.log('loaded revocation credential', revocationCredential);
+  console.log('loaded suspension credential', revocationCredential);
 
   const revocationList: typeof RevocationList = await retrieveDecodedRevocationList(revocationCredential);
   console.log('decoded revocation list', revocationList);
 
   if (revocationList.isRevoked(credentialIndex)) {
-    console.log('credential is already revoked, aborting');
+    console.log('credential is already suspended, aborting');
     return;
   }
 
   revocationList.setRevoked(credentialIndex, true);
   if (!revocationList.isRevoked(credentialIndex)) {
-    console.error('Something went wrong while revoking.', revocationList, revocationList.isRevoked(credentialIndex));
+    console.error('Something went wrong while suspending.', revocationList, revocationList.isRevoked(credentialIndex));
     return;
   }
 
   console.log('list successfully updated', revocationList);
 
   updateCredentialFile(revocationCredential, revocationList);
-  console.log('credential successfully updated after revocation of index', credentialIndex);
+  console.log('credential successfully updated after suspension of index', credentialIndex);
 }
 
 suspendCredential();
