@@ -2,7 +2,7 @@ import writeFile from "./helpers/writeFile";
 
 const { RevocationList } = require('@digitalbazaar/vc-revocation-list');
 const { Ed25519VerificationKey2020 } = require('@digitalbazaar/ed25519-verification-key-2020');
-const { EcdsaSecp256k1VerificationKey2019 } = require('@bloomprotocol/ecdsa-secp256k1-verification-key-2019');
+const { EcdsaSecp256k1VerificationKey2019 } = require('@blockcerts/ecdsa-secp256k1-verification-key-2019');
 import getArg from "./helpers/getArg";
 import loadFileData from "./helpers/loadFileData";
 import {DEFAULT_KEY_PAIR_FILE_NAME, DEFAULT_REVOCATION_LIST_FILE_NAME} from "./constants";

@@ -3,8 +3,8 @@ const { RevocationList } = require('@digitalbazaar/vc-revocation-list');
 const jsigs = require('jsonld-signatures');
 const {purposes: {AssertionProofPurpose}} = jsigs;
 const didKeySecp256k1 = require('@transmute/did-key-secp256k1');
-const { EcdsaSecp256k1VerificationKey2019 } = require('@bloomprotocol/ecdsa-secp256k1-verification-key-2019');
-const { EcdsaSecp256k1Signature2019 } = require('@bloomprotocol/ecdsa-secp256k1-signature-2019');
+const { EcdsaSecp256k1VerificationKey2019 } = require('@blockcerts/ecdsa-secp256k1-verification-key-2019');
+const { EcdsaSecp256k1Signature2019 } = require('@blockcerts/ecdsa-secp256k1-signature-2019');
 import loadFileData from "./helpers/loadFileData";
 import {IRevocationList2021VerifiableCredential} from "./models";
 import {DEFAULT_REVOCATION_LIST_FILE_NAME} from "./constants";
@@ -110,7 +110,7 @@ async function getStatusList (revocationCredential: IRevocationList2021Verifiabl
 async function verifyCredential () {
   const vcData: BlockcertsV3 = loadFileData('issued-vc.json');
   const { credentialStatus } = vcData;
-  const credentialIndex = parseInt(credentialStatus.statusListIndex, 10);
+  const credentialIndex = parseInt((credentialStatus as any).statusListIndex, 10);
 
   const revocationCredential: IRevocationList2021VerifiableCredential = await getRevocationCredential(credentialStatus);
   const revocationList: typeof RevocationList = await getStatusList(revocationCredential);
