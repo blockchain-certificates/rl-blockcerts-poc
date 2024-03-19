@@ -1,4 +1,4 @@
-const { createList } = require('vc-revocation-list');
+const { createList } = require('@digitalbazaar/vc-revocation-list');
 
 async function generateList () {
   const list = await createList({ length: 131072 });

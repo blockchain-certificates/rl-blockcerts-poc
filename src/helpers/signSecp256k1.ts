@@ -1,7 +1,7 @@
 import {IEd25519VerificationKey2020} from "../models";
 
-const { EcdsaSecp256k1Signature2019 } = require('@bloomprotocol/ecdsa-secp256k1-signature-2019');
-const { EcdsaSecp256k1VerificationKey2019 } = require('@bloomprotocol/ecdsa-secp256k1-verification-key-2019');
+const { EcdsaSecp256k1Signature2019 } = require('@blockcerts/ecdsa-secp256k1-signature-2019');
+const { EcdsaSecp256k1VerificationKey2019 } = require('@blockcerts/ecdsa-secp256k1-verification-key-2019');
 const jsigs = require('jsonld-signatures');
 import crypto from 'crypto';
 const didKeySecp256k1 = require('@transmute/did-key-secp256k1');

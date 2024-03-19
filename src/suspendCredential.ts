@@ -1,8 +1,8 @@
 import writeFile from "./helpers/writeFile";
 
-const { RevocationList } = require('vc-revocation-list');
+const { RevocationList } = require('@digitalbazaar/vc-revocation-list');
 const { Ed25519VerificationKey2020 } = require('@digitalbazaar/ed25519-verification-key-2020');
-const { EcdsaSecp256k1VerificationKey2019 } = require('@bloomprotocol/ecdsa-secp256k1-verification-key-2019');
+const { EcdsaSecp256k1VerificationKey2019 } = require('@blockcerts/ecdsa-secp256k1-verification-key-2019');
 import getArg from "./helpers/getArg";
 import loadFileData from "./helpers/loadFileData";
 import {DEFAULT_KEY_PAIR_FILE_NAME, DEFAULT_REVOCATION_LIST_FILE_NAME} from "./constants";
@@ -32,29 +32,29 @@ async function suspendCredential () {
   } catch (e) {
     throw new Error('Please specify credential index to revoke with credentialIndex argument as number');
   }
-  console.log('Revoking credential at index', credentialIndex);
+  console.log('Suspending credential at index', credentialIndex);
 
   const revocationCredential = loadFileData<IRevocationList2021VerifiableCredential>('revocationList-suspension.json');
-  console.log('loaded revocation credential', revocationCredential);
+  console.log('loaded suspension credential', revocationCredential);
 
   const revocationList: typeof RevocationList = await retrieveDecodedRevocationList(revocationCredential);
   console.log('decoded revocation list', revocationList);
 
   if (revocationList.isRevoked(credentialIndex)) {
-    console.log('credential is already revoked, aborting');
+    console.log('credential is already suspended, aborting');
     return;
   }
 
   revocationList.setRevoked(credentialIndex, true);
   if (!revocationList.isRevoked(credentialIndex)) {
-    console.error('Something went wrong while revoking.', revocationList, revocationList.isRevoked(credentialIndex));
+    console.error('Something went wrong while suspending.', revocationList, revocationList.isRevoked(credentialIndex));
     return;
   }
 
   console.log('list successfully updated', revocationList);
 
   updateCredentialFile(revocationCredential, revocationList);
-  console.log('credential successfully updated after revocation of index', credentialIndex);
+  console.log('credential successfully updated after suspension of index', credentialIndex);
 }
 
 suspendCredential();

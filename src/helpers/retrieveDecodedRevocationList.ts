@@ -1,4 +1,4 @@
-const { decodeList, RevocationList } = require('vc-revocation-list');
+const { decodeList, RevocationList } = require('@digitalbazaar/vc-revocation-list');
 import {IRevocationList2021VerifiableCredential} from "../models";
 
 export default async function retrieveDecodedRevocationList (revocationCredential: IRevocationList2021VerifiableCredential): Promise<typeof RevocationList> {
