@@ -13,7 +13,7 @@
     "@digitalbazaar/security-document-loader": "^2.0.0",
     "@digitalbazaar/vc-revocation-list": "^6.0.0",
     "@transmute/did-key-secp256k1": "^0.3.0-unstable.8",
-    "jsonld-signatures": "^11.2.1",
+    "jsonld-signatures": "^11.5.0",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
