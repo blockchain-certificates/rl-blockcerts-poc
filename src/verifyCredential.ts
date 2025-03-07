@@ -96,7 +96,7 @@ async function getRevocationCredential (credentialStatus): Promise<IRevocationLi
   // const revocationListCredentialUrl = credentialStatus.statusListCredential;
   // const revocationCredential = fetch
 
-  const revocationCredential = loadFileData<IRevocationList2021VerifiableCredential>('revocationList-suspension.json');
+  const revocationCredential = loadFileData<IRevocationList2021VerifiableCredential>('revocationList.json');
   await verifyProofRevocationCredential(revocationCredential);
   return revocationCredential;
 }
