@@ -22,14 +22,14 @@ function getVCTemplate ({
   id?: string
 }): IRevocationList2021VerifiableCredential {
   return {
-    '@context': ['https://www.w3.org/2018/credentials/v1', 'https://w3id.org/vc/status-list/2021/v1'],
+    '@context': ['https://www.w3.org/ns/credentials/v2'],
     id,
     issuer: '',
-    issuanceDate: '',
-    type: ['VerifiableCredential', 'StatusList2021Credential'],
+    validFrom: '',
+    type: ['VerifiableCredential', 'BitstringStatusListCredential'],
     credentialSubject: {
       id: `${id}#list`,
-      type: 'StatusList2021',
+      type: 'BitstringStatusList',
       encodedList,
     }
   };
@@ -46,7 +46,7 @@ async function generateCredential (): Promise<IRevocationList2021VerifiableCrede
 
 async function createVCRevocationList () {
   const credential = await generateCredential();
-  credential.issuanceDate = currentTime();
+  credential.validFrom = currentTime();
   const keyPairData = loadFileData<any>(DEFAULT_KEY_PAIR_FILE_NAME);
   const keyPair = await EcdsaSecp256k1VerificationKey2019.from(keyPairData as any);
   credential.issuer = (keyPair as any).controller;

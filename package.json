@@ -4,9 +4,9 @@
   "description": "PoC Status List 2021 with Blockcerts",
   "main": "index.js",
   "dependencies": {
-    "@blockcerts/cert-verifier-js": "^6.13.0",
-    "@blockcerts/ecdsa-secp256k1-signature-2019": "^0.1.6",
-    "@blockcerts/ecdsa-secp256k1-verification-key-2019": "^0.1.6",
+    "@blockcerts/cert-verifier-js": "^6.33.1",
+    "@blockcerts/ecdsa-secp256k1-signature-2019": "^0.1.10",
+    "@blockcerts/ecdsa-secp256k1-verification-key-2019": "^0.1.9",
     "@digitalbazaar/did-method-key": "^5.2.0",
     "@digitalbazaar/ed25519-signature-2020": "^5.2.0",
     "@digitalbazaar/ed25519-verification-key-2020": "^4.1.0",
