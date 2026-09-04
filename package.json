@@ -4,16 +4,17 @@
   "description": "PoC Status List 2021 with Blockcerts",
   "main": "index.js",
   "dependencies": {
-    "@blockcerts/cert-verifier-js": "^6.33.1",
-    "@blockcerts/ecdsa-secp256k1-signature-2019": "^0.1.10",
-    "@blockcerts/ecdsa-secp256k1-verification-key-2019": "^0.1.9",
-    "@digitalbazaar/did-method-key": "^5.2.0",
-    "@digitalbazaar/ed25519-signature-2020": "^5.2.0",
-    "@digitalbazaar/ed25519-verification-key-2020": "^4.1.0",
+    "@blockcerts/cert-verifier-js": "^6.37.0",
+    "@blockcerts/ecdsa-secp256k1-signature-2019": "^1.0.2",
+    "@blockcerts/ecdsa-secp256k1-verification-key-2019": "^1.0.2",
+    "@digitalbazaar/did-method-key": "^5.3.0",
+    "@digitalbazaar/ed25519-signature-2020": "^5.4.0",
+    "@digitalbazaar/ed25519-verification-key-2020": "^4.2.0",
     "@digitalbazaar/security-document-loader": "^2.0.0",
-    "@digitalbazaar/vc-revocation-list": "^6.0.0",
+    "@digitalbazaar/vc-bitstring-status-list": "^2.0.1",
+    "@digitalbazaar/vc-revocation-list": "^7.0.0",
     "@transmute/did-key-secp256k1": "^0.3.0-unstable.8",
-    "jsonld-signatures": "^11.5.0",
+    "jsonld-signatures": "^11.6.0",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
@@ -23,9 +24,13 @@
   },
   "scripts": {
     "generate": "tsx src/createVCRevocationList.ts",
+    "generate:bitstring": "tsx src/createVCRevocationList.ts --type=bitstring",
     "revoke": "tsx src/revokeCredential.ts",
+    "revoke:bitstring": "tsx src/revokeCredential.ts --type=bitstring",
     "suspend": "tsx src/suspendCredential.ts",
+    "suspend:bitstring": "tsx src/suspendCredential.ts --type=bitstring",
     "verify": "tsx src/verifyCredential.ts",
+    "verify:bitstring": "tsx src/verifyCredential.ts --type=bitstring",
     "test": "npm run test"
   },
   "repository": {

@@ -1,18 +1,16 @@
 import writeFile from "./helpers/writeFile";
-
-const { RevocationList } = require('@digitalbazaar/vc-revocation-list');
-const { Ed25519VerificationKey2020 } = require('@digitalbazaar/ed25519-verification-key-2020');
-const { EcdsaSecp256k1VerificationKey2019 } = require('@blockcerts/ecdsa-secp256k1-verification-key-2019');
 import getArg from "./helpers/getArg";
 import loadFileData from "./helpers/loadFileData";
-import {DEFAULT_KEY_PAIR_FILE_NAME, DEFAULT_REVOCATION_LIST_FILE_NAME} from "./constants";
-import {IEd25519VerificationKey2020, IRevocationList2021VerifiableCredential} from "./models";
-// import signCredential from "./helpers/signCredential";
+import { DEFAULT_KEY_PAIR_FILE_NAME } from "./constants";
+import { TRevocationListVerifiableCredential } from "./models";
 import retrieveDecodedRevocationList from "./helpers/retrieveDecodedRevocationList";
+import { getStatus, setStatus } from "./helpers/statusListAdapter";
+import { getRevocationListFileName, getStatusListType } from "./helpers/statusListNaming";
 import signSecp256k1 from "./helpers/signSecp256k1";
+import { EcdsaSecp256k1VerificationKey2019 } from "@blockcerts/ecdsa-secp256k1-verification-key-2019";
 
-async function updateCredentialFile (revocationCredential: IRevocationList2021VerifiableCredential, revocationList: typeof RevocationList) {
-  const encodedList = await revocationList.encode();
+async function updateCredentialFile (revocationCredential: TRevocationListVerifiableCredential, statusList: any, fileName: string) {
+  const encodedList = await statusList.encode();
   revocationCredential.credentialSubject.encodedList = encodedList;
   const keyPairData = loadFileData<any>(DEFAULT_KEY_PAIR_FILE_NAME);
   if (!keyPairData) {
@@ -22,7 +20,7 @@ async function updateCredentialFile (revocationCredential: IRevocationList2021Ve
   delete updatedRevocationCredential.proof;
   const keyPair = await EcdsaSecp256k1VerificationKey2019.from(keyPairData as any);
   const signedCredential = await signSecp256k1(updatedRevocationCredential, keyPair);
-  await writeFile(signedCredential, DEFAULT_REVOCATION_LIST_FILE_NAME);
+  await writeFile(signedCredential, fileName);
 }
 
 async function revokeCredential () {
@@ -32,28 +30,31 @@ async function revokeCredential () {
   } catch (e) {
     throw new Error('Please specify credential index to revoke with credentialIndex argument as number');
   }
-  console.log('Revoking credential at index', credentialIndex);
 
-  const revocationCredential = loadFileData<IRevocationList2021VerifiableCredential>(DEFAULT_REVOCATION_LIST_FILE_NAME);
+  const type = getStatusListType();
+  const fileName = getRevocationListFileName('revocation', type);
+  console.log('Revoking credential at index', credentialIndex, 'in', fileName);
+
+  const revocationCredential = loadFileData<TRevocationListVerifiableCredential>(fileName);
   console.log('loaded revocation credential', revocationCredential);
 
-  const revocationList: typeof RevocationList = await retrieveDecodedRevocationList(revocationCredential);
-  console.log('decoded revocation list', revocationList);
+  const statusList = await retrieveDecodedRevocationList(revocationCredential);
+  console.log('decoded revocation list', statusList);
 
-  if (revocationList.isRevoked(credentialIndex)) {
+  if (getStatus(revocationCredential, statusList, credentialIndex)) {
     console.log('credential is already revoked, aborting');
     return;
   }
 
-  revocationList.setRevoked(credentialIndex, true);
-  if (!revocationList.isRevoked(credentialIndex)) {
-    console.error('Something went wrong while revoking.', revocationList, revocationList.isRevoked(credentialIndex));
+  setStatus(revocationCredential, statusList, credentialIndex, true);
+  if (!getStatus(revocationCredential, statusList, credentialIndex)) {
+    console.error('Something went wrong while revoking.', statusList);
     return;
   }
 
-  console.log('list successfully updated', revocationList);
+  console.log('list successfully updated', statusList);
 
-  updateCredentialFile(revocationCredential, revocationList);
+  await updateCredentialFile(revocationCredential, statusList, fileName);
   console.log('credential successfully updated after revocation of index', credentialIndex);
 }
 
