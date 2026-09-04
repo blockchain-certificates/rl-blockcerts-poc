@@ -1,25 +1,25 @@
 {
   "@context": [
-    "https://www.w3.org/ns/credentials/v2",
-    "https://ns.did.ai/suites/secp256k1-2019/v1"
+    "https://www.w3.org/2018/credentials/v1",
+    "https://w3id.org/vc/status-list/2021/v1"
   ],
   "id": "https://www.blockcerts.org/samples/3.0/status-list-2021.json",
   "issuer": "did:key:zQ3shWbMURApEGeYEYbyfMoPbuW5qCmM7gtWkwnhGf2LLkv2M",
-  "validFrom": "2025-11-19T12:39:43.687Z",
+  "validFrom": "2026-09-04T08:13:39.189Z",
   "type": [
     "VerifiableCredential",
-    "BitstringStatusListCredential"
+    "StatusList2021Credential"
   ],
   "credentialSubject": {
     "id": "https://www.blockcerts.org/samples/3.0/status-list-2021.json#list",
-    "type": "BitstringStatusList",
-    "encodedList": "H4sIAAAAAAAAA-3OMQEAAAgDoEWwf1pbTA9IQAIAAJTMdQAAAAAAAAAAAAAAAAD4awEYNa3BAEAAAA"
+    "type": "StatusList2021",
+    "encodedList": "H4sIAAAAAAAAA-3BMQEAAADCoPVPbQwfoAAAAAAAAAAAAAAAAAAAAIC3AYbSVKsAQAAA"
   },
   "proof": {
     "type": "EcdsaSecp256k1Signature2019",
-    "created": "2025-11-19T12:42:26.731Z",
+    "created": "2026-09-04T08:13:39.190Z",
     "verificationMethod": "did:key:zQ3shWbMURApEGeYEYbyfMoPbuW5qCmM7gtWkwnhGf2LLkv2M#zQ3shWbMURApEGeYEYbyfMoPbuW5qCmM7gtWkwnhGf2LLkv2M",
     "proofPurpose": "assertionMethod",
-    "jws": "eyJhbGciOiJFUzI1NksiLCJiNjQiOmZhbHNlLCJjcml0IjpbImI2NCJdfQ..AoX5a2a0zPW6zB0yWssfRoprtRZcSXttHc2hxfiwjikQJdznjS-6vnBRnEpPEKaMV6FQUuoUjFMiucU-Gx6xSg"
+    "jws": "eyJhbGciOiJFUzI1NksiLCJiNjQiOmZhbHNlLCJjcml0IjpbImI2NCJdfQ..151GYRQ1_FEWD3D0Wj_p34DoRq5U_NaIM3KdKDzbrawUxJmb_mK3NZzK_MQ39ZekYuJYUp6IDaIQFj5SxipbOQ"
   }
 }

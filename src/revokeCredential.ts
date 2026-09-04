@@ -32,7 +32,7 @@ async function revokeCredential () {
   }
 
   const type = getStatusListType();
-  const fileName = getRevocationListFileName('revocation', type);
+  const fileName = getArg('file') ?? getRevocationListFileName('revocation', type);
   console.log('Revoking credential at index', credentialIndex, 'in', fileName);
 
   const revocationCredential = loadFileData<TRevocationListVerifiableCredential>(fileName);

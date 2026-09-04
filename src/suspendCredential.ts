@@ -32,7 +32,7 @@ async function suspendCredential () {
   }
 
   const type = getStatusListType();
-  const fileName = getRevocationListFileName('suspension', type);
+  const fileName = getArg('file') ?? getRevocationListFileName('suspension', type);
   console.log('Suspending credential at index', credentialIndex, 'in', fileName);
 
   const suspensionCredential = loadFileData<TRevocationListVerifiableCredential>(fileName);
