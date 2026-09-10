@@ -1,10 +1,12 @@
 import { MerkleProof2019 as VCProof } from "@blockcerts/cert-verifier-js";
 
-export interface IRevocationList2021VerifiableCredential {
-  '@context': ['https://www.w3.org/2018/credentials/v1', 'https://w3id.org/vc/status-list/2021/v1'], // TODO: update with 2021
+export type TStatusListType = 'statusList2021' | 'bitstring';
+
+export interface IStatusList2021VerifiableCredential {
+  '@context': string[],
   id: string;
   issuer: string; // or Issuer Object
-  issuanceDate: string;
+  validFrom: string;
   type: ['VerifiableCredential', 'StatusList2021Credential'],
   credentialSubject: {
     id: string;
@@ -13,6 +15,26 @@ export interface IRevocationList2021VerifiableCredential {
   }
   proof?: VCProof
 }
+
+export interface IBitstringStatusListVerifiableCredential {
+  '@context': string[],
+  id: string;
+  issuer: string; // or Issuer Object
+  validFrom: string;
+  type: ['VerifiableCredential', 'BitstringStatusListCredential'],
+  credentialSubject: {
+    id: string;
+    type: 'BitstringStatusList',
+    encodedList: string;
+    statusPurpose: string;
+  }
+  proof?: VCProof
+}
+
+export type TRevocationListVerifiableCredential = IStatusList2021VerifiableCredential | IBitstringStatusListVerifiableCredential;
+
+// retained for backwards compatibility with existing call sites
+export type IRevocationList2021VerifiableCredential = TRevocationListVerifiableCredential;
 
 export interface IEd25519VerificationKey2020 {
   id?: string,

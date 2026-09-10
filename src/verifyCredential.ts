@@ -1,18 +1,18 @@
 import {BlockcertsV3, IDidDocument} from "@blockcerts/cert-verifier-js";
-const { RevocationList } = require('@digitalbazaar/vc-revocation-list');
 const jsigs = require('jsonld-signatures');
 const {purposes: {AssertionProofPurpose}} = jsigs;
 const didKeySecp256k1 = require('@transmute/did-key-secp256k1');
 const { EcdsaSecp256k1VerificationKey2019 } = require('@blockcerts/ecdsa-secp256k1-verification-key-2019');
 const { EcdsaSecp256k1Signature2019 } = require('@blockcerts/ecdsa-secp256k1-signature-2019');
 import loadFileData from "./helpers/loadFileData";
-import {IRevocationList2021VerifiableCredential} from "./models";
-import {DEFAULT_REVOCATION_LIST_FILE_NAME} from "./constants";
+import {TRevocationListVerifiableCredential} from "./models";
 import retrieveDecodedRevocationList from "./helpers/retrieveDecodedRevocationList";
+import { getStatus } from "./helpers/statusListAdapter";
+import { getRevocationListFileName, getStatusListType } from "./helpers/statusListNaming";
 import generateDocumentLoader from "./helpers/generateDocumentLoader";
 import currentTime from "./helpers/currentTime";
 
-async function verifyProofRevocationCredential (revocationCredential: IRevocationList2021VerifiableCredential) {
+async function verifyProofRevocationCredential (revocationCredential: TRevocationListVerifiableCredential) {
   let didDocument: IDidDocument;
 
   console.log('verify revocation list credential', revocationCredential);
@@ -92,18 +92,19 @@ async function verifyProofRevocationCredential (revocationCredential: IRevocatio
   console.log('Revocation list credential successfully verified');
 }
 
-async function getRevocationCredential (credentialStatus): Promise<IRevocationList2021VerifiableCredential> {
+async function getRevocationCredential (credentialStatus): Promise<TRevocationListVerifiableCredential> {
   // const revocationListCredentialUrl = credentialStatus.statusListCredential;
   // const revocationCredential = fetch
 
-  const revocationCredential = loadFileData<IRevocationList2021VerifiableCredential>('revocationList.json');
+  const type = getStatusListType();
+  const fileName = getRevocationListFileName('revocation', type);
+  const revocationCredential = loadFileData<TRevocationListVerifiableCredential>(fileName);
   await verifyProofRevocationCredential(revocationCredential);
   return revocationCredential;
 }
 
-async function getStatusList (revocationCredential: IRevocationList2021VerifiableCredential): Promise<typeof RevocationList> {
-  const revocationList: typeof RevocationList = await retrieveDecodedRevocationList(revocationCredential);
-  return revocationList;
+async function getStatusList (revocationCredential: TRevocationListVerifiableCredential): Promise<any> {
+  return retrieveDecodedRevocationList(revocationCredential);
 }
 
 
@@ -112,10 +113,10 @@ async function verifyCredential () {
   const { credentialStatus } = vcData;
   const credentialIndex = parseInt((credentialStatus as any).statusListIndex, 10);
 
-  const revocationCredential: IRevocationList2021VerifiableCredential = await getRevocationCredential(credentialStatus);
-  const revocationList: typeof RevocationList = await getStatusList(revocationCredential);
+  const revocationCredential: TRevocationListVerifiableCredential = await getRevocationCredential(credentialStatus);
+  const statusList = await getStatusList(revocationCredential);
 
-  if (revocationList.isRevoked(credentialIndex)) {
+  if (getStatus(revocationCredential, statusList, credentialIndex)) {
     console.error('Credential has been revoked');
     return;
   }

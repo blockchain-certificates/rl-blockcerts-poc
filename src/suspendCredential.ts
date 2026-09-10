@@ -1,28 +1,26 @@
 import writeFile from "./helpers/writeFile";
-
-const { RevocationList } = require('@digitalbazaar/vc-revocation-list');
-const { Ed25519VerificationKey2020 } = require('@digitalbazaar/ed25519-verification-key-2020');
-const { EcdsaSecp256k1VerificationKey2019 } = require('@blockcerts/ecdsa-secp256k1-verification-key-2019');
 import getArg from "./helpers/getArg";
 import loadFileData from "./helpers/loadFileData";
-import {DEFAULT_KEY_PAIR_FILE_NAME, DEFAULT_REVOCATION_LIST_FILE_NAME} from "./constants";
-import {IEd25519VerificationKey2020, IRevocationList2021VerifiableCredential} from "./models";
-// import signCredential from "./helpers/signCredential";
+import { DEFAULT_KEY_PAIR_FILE_NAME } from "./constants";
+import { TRevocationListVerifiableCredential } from "./models";
 import retrieveDecodedRevocationList from "./helpers/retrieveDecodedRevocationList";
+import { getStatus, setStatus } from "./helpers/statusListAdapter";
+import { getRevocationListFileName, getStatusListType } from "./helpers/statusListNaming";
 import signSecp256k1 from "./helpers/signSecp256k1";
+import { EcdsaSecp256k1VerificationKey2019 } from "@blockcerts/ecdsa-secp256k1-verification-key-2019";
 
-async function updateCredentialFile (revocationCredential: IRevocationList2021VerifiableCredential, revocationList: typeof RevocationList) {
-  const encodedList = await revocationList.encode();
-  revocationCredential.credentialSubject.encodedList = encodedList;
+async function updateCredentialFile (suspensionCredential: TRevocationListVerifiableCredential, statusList: any, fileName: string) {
+  const encodedList = await statusList.encode();
+  suspensionCredential.credentialSubject.encodedList = encodedList;
   const keyPairData = loadFileData<any>(DEFAULT_KEY_PAIR_FILE_NAME);
   if (!keyPairData) {
     throw new Error('No key pair file retrieved, it is expected to sign the document with the same initial key pair');
   }
-  const updatedRevocationCredential = JSON.parse(JSON.stringify(revocationCredential));
-  delete updatedRevocationCredential.proof;
+  const updatedSuspensionCredential = JSON.parse(JSON.stringify(suspensionCredential));
+  delete updatedSuspensionCredential.proof;
   const keyPair = await EcdsaSecp256k1VerificationKey2019.from(keyPairData as any);
-  const signedCredential = await signSecp256k1(updatedRevocationCredential, keyPair);
-  await writeFile(signedCredential, 'revocationList-suspension.json');
+  const signedCredential = await signSecp256k1(updatedSuspensionCredential, keyPair);
+  await writeFile(signedCredential, fileName);
 }
 
 async function suspendCredential () {
@@ -32,28 +30,31 @@ async function suspendCredential () {
   } catch (e) {
     throw new Error('Please specify credential index to revoke with credentialIndex argument as number');
   }
-  console.log('Suspending credential at index', credentialIndex);
 
-  const revocationCredential = loadFileData<IRevocationList2021VerifiableCredential>('revocationList-suspension.json');
-  console.log('loaded suspension credential', revocationCredential);
+  const type = getStatusListType();
+  const fileName = getArg('file') ?? getRevocationListFileName('suspension', type);
+  console.log('Suspending credential at index', credentialIndex, 'in', fileName);
 
-  const revocationList: typeof RevocationList = await retrieveDecodedRevocationList(revocationCredential);
-  console.log('decoded revocation list', revocationList);
+  const suspensionCredential = loadFileData<TRevocationListVerifiableCredential>(fileName);
+  console.log('loaded suspension credential', suspensionCredential);
 
-  if (revocationList.isRevoked(credentialIndex)) {
+  const statusList = await retrieveDecodedRevocationList(suspensionCredential);
+  console.log('decoded suspension list', statusList);
+
+  if (getStatus(suspensionCredential, statusList, credentialIndex)) {
     console.log('credential is already suspended, aborting');
     return;
   }
 
-  revocationList.setRevoked(credentialIndex, true);
-  if (!revocationList.isRevoked(credentialIndex)) {
-    console.error('Something went wrong while suspending.', revocationList, revocationList.isRevoked(credentialIndex));
+  setStatus(suspensionCredential, statusList, credentialIndex, true);
+  if (!getStatus(suspensionCredential, statusList, credentialIndex)) {
+    console.error('Something went wrong while suspending.', statusList);
     return;
   }
 
-  console.log('list successfully updated', revocationList);
+  console.log('list successfully updated', statusList);
 
-  updateCredentialFile(revocationCredential, revocationList);
+  await updateCredentialFile(suspensionCredential, statusList, fileName);
   console.log('credential successfully updated after suspension of index', credentialIndex);
 }
 

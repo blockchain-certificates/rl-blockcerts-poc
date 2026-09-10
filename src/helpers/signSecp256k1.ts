@@ -1,10 +1,10 @@
 import {IEd25519VerificationKey2020} from "../models";
 
-const { EcdsaSecp256k1Signature2019 } = require('@blockcerts/ecdsa-secp256k1-signature-2019');
-const { EcdsaSecp256k1VerificationKey2019 } = require('@blockcerts/ecdsa-secp256k1-verification-key-2019');
-const jsigs = require('jsonld-signatures');
+import { EcdsaSecp256k1Signature2019 } from '@blockcerts/ecdsa-secp256k1-signature-2019';
+import { EcdsaSecp256k1VerificationKey2019 } from '@blockcerts/ecdsa-secp256k1-verification-key-2019';
+import jsigs from 'jsonld-signatures';
 import crypto from 'crypto';
-const didKeySecp256k1 = require('@transmute/did-key-secp256k1');
+import didKeySecp256k1 from '@transmute/did-key-secp256k1';
 const {purposes: {AssertionProofPurpose}} = jsigs;
 import currentTime from './currentTime';
 import writeFile from "./writeFile";

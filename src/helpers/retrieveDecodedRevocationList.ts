@@ -1,7 +1,6 @@
-const { decodeList, RevocationList } = require('@digitalbazaar/vc-revocation-list');
-import {IRevocationList2021VerifiableCredential} from "../models";
+import { TRevocationListVerifiableCredential } from "../models";
+import { decodeStatusList } from "./statusListAdapter";
 
-export default async function retrieveDecodedRevocationList (revocationCredential: IRevocationList2021VerifiableCredential): Promise<typeof RevocationList> {
-  const encodedList = revocationCredential.credentialSubject.encodedList;
-  return decodeList({ encodedList });
+export default async function retrieveDecodedRevocationList (revocationCredential: TRevocationListVerifiableCredential): Promise<any> {
+  return decodeStatusList(revocationCredential);
 }
